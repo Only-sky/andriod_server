@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @org.springframework.stereotype.Service
 public class MyService {
+
     @Autowired
     UserMapper userMapper;
 
@@ -21,10 +22,8 @@ public class MyService {
         return false;
     }
 
-    public boolean register(String email,String password){ //预先判断邮箱是否注册
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
+    public boolean register(String name,String email,String password){ //预先判断邮箱是否注册
+        User user = new User(name,email,password);
         return userMapper.getUserByEmail(email) == null && userMapper.insertUser(user) >= 1;
     }
 }

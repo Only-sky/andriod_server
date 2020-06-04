@@ -2,27 +2,32 @@ package com.tu.androidserver.mapper;
 
 import com.tu.androidserver.bean.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Jordan_tu
  * @date 2020/6/2
  */
 @Mapper
+@Repository
 public interface UserMapper {
-    @Select("select * from tb_user where id=#{id}")
+    @Select("select * from tbl_user where user_id=#{id}")
     public User getUserById(Integer id);
 
-    @Select("select * from tb_user where email=#{email}")
+    @Select("select * from tbl_user where user_email=#{email}")
     public User getUserByEmail(String email);
 
-    @Options(useGeneratedKeys = true,keyProperty = "id")
-    @Insert("insert into tb_user(email,password) values(#{email},#{password}) ")
+    @Options(useGeneratedKeys = true)
+    @Insert("insert into tbl_user(user_name,user_email,user_password,user_sex,user_phone,user_address) " +
+            "values(#{name},#{email},#{password},#{sex},#{phone},#{address}) ")
     public int insertUser(User user);
 
-//    @Update("update department set departmentName=#{departmentName} where id=#{id}")
-//    public int updateUser(Department department);
+    @Update("update tbl_user set user_name=#{name},user_password=#{password},user_sex=#{sex}," +
+            "user_phone=#{phone},user_address=#{address}")
+    public int updateUser(int id);
 
-    //    @Delete("delete from department where id=#{id}")
-//    public int deleteDept(Integer id);
+    @Delete("delete * from tbl_user where user_id=#{id}")
+    public int deleteUser(User user);
+
 
 }

@@ -2,6 +2,7 @@ package com.tu.androidserver.controller;
 
 import com.tu.androidserver.bean.User;
 import com.tu.androidserver.service.MyService;
+import com.tu.androidserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -14,23 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController {
     @Autowired
-    MyService service;
-
-//    @GetMapping("/login/{email}/{password}")
-//    @ResponseBody
-//    public boolean login(@PathVariable String email,@PathVariable String password){
-//        return service.isValide(email, password);
-//    }
+    UserService userService;
 
     @PostMapping("/login")
     @ResponseBody
-    public boolean login(@RequestParam(value = "email", required = true) String email,@RequestParam(value = "password", required = true) String password){
-        return service.login(email, password);
+    public boolean login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
+        return userService.login(email, password);
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public boolean register(@RequestParam(value = "email", required = true) String email,@RequestParam(value = "password", required = true) String password){
-        return service.register(email,password);
+    public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
+        User user=new User(name,email,password);
+        return userService.register(user);
     }
 }
