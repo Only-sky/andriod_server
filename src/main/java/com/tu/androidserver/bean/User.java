@@ -23,10 +23,13 @@ public class User {
         this.address = address;
     }
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String sex, String phone, String address) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.sex = sex;
+        this.phone = phone;
+        this.address = address;
     }
 
     public Integer getId() {

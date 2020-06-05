@@ -31,8 +31,9 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
-        User user=new User(name,email,password);
+    public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
+                        @RequestParam(value = "sex")String sex,@RequestParam(value = "phone")String phone,@RequestParam(value = "address")String address){
+        User user=new User(name,email,password,sex,phone,address);
         return userService.register(user);
     }
 
