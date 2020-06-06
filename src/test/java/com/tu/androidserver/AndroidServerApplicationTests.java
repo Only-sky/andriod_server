@@ -6,6 +6,7 @@ import com.tu.androidserver.bean.User;
 import com.tu.androidserver.mapper.CommentMapper;
 import com.tu.androidserver.mapper.TopicMapper;
 import com.tu.androidserver.mapper.UserMapper;
+import com.tu.androidserver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,23 +16,25 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 
 @SpringBootTest
 class AndroidServerApplicationTests {
     @Autowired
     UserMapper userMapper;
-
     @Autowired
     TopicMapper topicMapper;
-
     @Autowired
     CommentMapper commentMapper;
+    @Autowired
+    UserService userService;
 
     @Test
     void user() throws SQLException {
-//        User user = new User("hty","2784216955@qq.com","123456");
+        userMapper.deleteUser(1);
+//        User user = new User("hty","2784216955@qq.com","123456","男","18118278807","南京");
 //        System.out.println(userMapper.insertUser(user));
-        System.out.println(userMapper.getUserById(1).getEmail());
+//        System.out.println(userMapper.getUserById(1).getEmail());
     }
 
     @Test
@@ -55,6 +58,34 @@ class AndroidServerApplicationTests {
             System.out.println(comment.getContent());
         }
 
+    }
+
+    @Test
+    public void friend() {
+        System.out.println(userService.addFriend(1, 2));
+        System.out.println(userService.acceptFriendApplication(2, 1));
+        List<User> users=userService.displayFriendApplication(2);
+        for(User user:users) {
+            System.out.println(user.getName());
+        }
+
+//        userService.deleteFriend(1,2);
+//
+//        List<User> users=userService.acceptDeleteFriendMessage(2);
+//
+//        for(User user:users) {
+//            System.out.println(user.getName());
+//        }
+
+//        users=userService.displayAllFriend(1);
+//        for(User user:users) {
+//            System.out.println(user.getName());
+//        }
+    }
+
+    @Test
+    public void chat() {
+        userService.sendMessage(2,1,"你是大傻子");
     }
 
 }

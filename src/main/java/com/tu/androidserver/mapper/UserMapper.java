@@ -24,10 +24,10 @@ public interface UserMapper {
 
     @Update("update tbl_user set user_name=#{name},user_password=#{password},user_sex=#{sex}," +
             "user_phone=#{phone},user_address=#{address}")
-    public int updateUser(int id);
+    public int updateUser(User user);
 
-    @Delete("delete * from tbl_user where user_id=#{id}")
-    public int deleteUser(User user);
+    @Delete("delete from tbl_user where user_id = #{userId}")
+    public int deleteUser(Integer userId);
 
 
 }

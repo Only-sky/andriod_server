@@ -23,7 +23,7 @@ public interface CommentMapper {
     @Select("select * from tbl_comment where topic_id=#{id}")
     public List<Comment> getCommentByTopicId(int id);
 
-    @Delete("delete * from tbl_comment where comment_id=#{id}")
+    @Delete("delete from tbl_comment where comment_id=#{id}")
     public int deleteCommentById(int id);
 
     @Update("update tbl_comment set comment_content=#{content} where commend_id=#{id}")

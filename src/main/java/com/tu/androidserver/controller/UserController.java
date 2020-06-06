@@ -1,17 +1,14 @@
 package com.tu.androidserver.controller;
 
-import com.sun.istack.internal.NotNull;
 import com.tu.androidserver.bean.Comment;
 import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
-import com.tu.androidserver.service.MyService;
 import com.tu.androidserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**

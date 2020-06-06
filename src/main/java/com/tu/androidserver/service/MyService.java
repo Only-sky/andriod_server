@@ -22,8 +22,8 @@ public class MyService {
         return false;
     }
 
-    public boolean register(String name,String email,String password){ //预先判断邮箱是否注册
-        User user = new User(name,email,password);
+    public boolean register(String name,String email,String password,String sex,String phone,String address){ //预先判断邮箱是否注册
+        User user = new User(name,email,password,sex,phone,address);
         return userMapper.getUserByEmail(email) == null && userMapper.insertUser(user) >= 1;
     }
 }

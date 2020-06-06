@@ -1,16 +1,12 @@
 package com.tu.androidserver.service;
 
-import com.sun.istack.internal.NotNull;
-import com.tu.androidserver.bean.Comment;
-import com.tu.androidserver.bean.Topic;
-import com.tu.androidserver.bean.User;
-import com.tu.androidserver.mapper.CommentMapper;
-import com.tu.androidserver.mapper.TopicMapper;
-import com.tu.androidserver.mapper.UserMapper;
+import com.tu.androidserver.bean.*;
+import com.tu.androidserver.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +17,12 @@ public class UserService {
     private CommentMapper commentMapper;
     @Autowired
     private TopicMapper topicMapper;
+    @Autowired
+    private UserRelationMapper userRelationMapper;
+    @Autowired
+    private ChatRecordMapper chatRecordMapper;
+    @Autowired
+    private UserUntil userUntil;
 
     /**
      * 用户注册
@@ -28,7 +30,7 @@ public class UserService {
      * -1:邮箱重复
      * 0:注册失败
      * */
-    public int register(@NotNull User user) {
+    public int register(User user) {
         if(userMapper.getUserByEmail(user.getEmail())!=null) {  //邮箱重复
             return -1;
         }
@@ -42,7 +44,7 @@ public class UserService {
     /**
      * 登陆
      * */
-    public boolean login(@NotNull String email,@NotNull String password) {
+    public boolean login(String email,String password) {
         User loginUser=userMapper.getUserByEmail(email);
         if(loginUser==null) {
             return false;
@@ -56,7 +58,7 @@ public class UserService {
     /**
      * 评论
      * */
-    public boolean remark(@NotNull Integer userId,@NotNull Integer topicId,String content) {
+    public boolean remark(Integer userId,Integer topicId,String content) {
         Comment comment=new Comment(content,userId,topicId,new Timestamp(System.currentTimeMillis()));
         if(commentMapper.insertComment(comment)==1) {
             return true;
@@ -88,4 +90,170 @@ public class UserService {
     public List<Topic> viewAllTopic() {
         return topicMapper.getAllTopic();
     }
+
+    /**
+     * 添加好友
+     * */
+    public boolean addFriend(Integer senderId,Integer receiverId) {
+        if(userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId)!=null) {
+            return false;
+        }
+        if(userRelationMapper.getUserBySenderAndReceiverId(receiverId,senderId)!=null) {
+            return false;
+        }
+        UserRelation userRelation=new UserRelation(senderId,receiverId,new Timestamp(System.currentTimeMillis()));
+        if(userRelationMapper.insertUserRelation(userRelation)==1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查看好友申请
+     * */
+    public List<User> displayFriendApplication(Integer receiverId) {
+        List<UserRelation> userRelations=userRelationMapper.getUserByReceiverId(receiverId);
+        List<User> users=new ArrayList<>();
+        for(UserRelation relation:userRelations) {
+            if(relation.isAgree()==0) {
+                users.add(userMapper.getUserById(relation.getSenderId()));
+            }
+        }
+        return users;
+    }
+
+    /**
+     * 接受好友请求
+     * */
+    public boolean acceptFriendApplication(Integer receiverId,Integer senderId) {
+        UserRelation userRelation=userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId);
+        if(userRelation==null) {
+            return false;
+        }
+        if(userRelation.isAgree()==1) {
+            return false;
+        }
+        userRelation.setAgree(1);
+        if(userRelationMapper.updateUserRelation(userRelation)==1){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 删除好友
+     * */
+    public boolean deleteFriend(Integer senderId,Integer receiverId) {
+        UserRelation userRelation=userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId);
+        if(userRelation==null) {
+            userRelation=userRelationMapper.getUserBySenderAndReceiverId(receiverId,senderId);
+            if(userRelation==null) {
+                return false;
+            }
+            userRelation.setIsDelete(2);
+        }
+        else {
+            userRelation.setIsDelete(1);
+        }
+        if(userRelationMapper.updateUserRelation(userRelation)==1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查看删除好友通知
+     * */
+    public List<User> acceptDeleteFriendMessage(Integer receiverId) {
+        List<UserRelation> senderRelation=userRelationMapper.getUserBySenderId(receiverId);
+        List<UserRelation> receiverRelation=userRelationMapper.getUserByReceiverId(receiverId);
+        List<User> users=new ArrayList<>();
+        for(int i=0;i<senderRelation.size();i++) {
+            if(senderRelation.get(i).isAgree()==0) {
+                senderRelation.remove(i);
+                continue;
+            }
+            if(senderRelation.get(i).getIsDelete()==0||senderRelation.get(i).getIsDelete()==1) {
+                senderRelation.remove(i);
+            }
+        }
+        for(int i=0;i<receiverRelation.size();i++) {
+            if(receiverRelation.get(i).isAgree()==0) {
+                receiverRelation.remove(i);
+                continue;
+            }
+            if(receiverRelation.get(i).getIsDelete()==0||receiverRelation.get(i).getIsDelete()==2) {
+                receiverRelation.remove(i);
+            }
+        }
+        for(UserRelation relation:senderRelation) {
+            users.add(userMapper.getUserById(relation.getReceiverId()));
+            userRelationMapper.deleteUserRelation(relation.getSenderId(),relation.getReceiverId());
+        }
+        for(UserRelation relation:receiverRelation) {
+            users.add(userMapper.getUserById(relation.getSenderId()));
+            userRelationMapper.deleteUserRelation(relation.getSenderId(),relation.getReceiverId());
+        }
+        return users;
+    }
+
+    /**
+     * 显示所有的好友
+     * */
+    public List<User> displayAllFriend(Integer id) {
+        List<UserRelation> receiverRelations=userRelationMapper.getUserBySenderId(id);
+        List<UserRelation> senderRelations=userRelationMapper.getUserByReceiverId(id);
+        List<User> users=new ArrayList<>();
+        for(int i=0;i<receiverRelations.size();i++) {
+            if(receiverRelations.get(i).isAgree()==0) {
+                receiverRelations.remove(i);
+                continue;
+            }
+            if(receiverRelations.get(i).getIsDelete()!=0) {
+                receiverRelations.remove(i);
+                continue;
+            }
+        }
+        for(int i=0;i<senderRelations.size();i++) {
+            if(senderRelations.get(i).isAgree()==0) {
+                senderRelations.remove(i);
+                continue;
+            }
+            if(senderRelations.get(i).getIsDelete()!=0) {
+                senderRelations.remove(i);
+                continue;
+            }
+        }
+
+        for(UserRelation relation:receiverRelations) {
+            users.add(userMapper.getUserById(relation.getReceiverId()));
+        }
+        for(UserRelation relation:senderRelations) {
+            users.add(userMapper.getUserById(relation.getSenderId()));
+        }
+        return users;
+    }
+
+    /**
+     * 私信
+     * */
+    public boolean sendMessage(Integer senderId,Integer receiverId,String content) {
+        if(!userUntil.isFriend(senderId,receiverId)) {
+            return false;
+        }
+
+        ChatRecord record = new ChatRecord(senderId,receiverId,content,new Timestamp(System.currentTimeMillis()));
+        if(chatRecordMapper.insertChatRecord(record)==1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 查看所有私信
+     * */
+
+    /**
+     * 提示是否有未读私信
+     * */
 }

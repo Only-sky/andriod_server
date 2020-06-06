@@ -24,7 +24,7 @@ public interface TopicMapper {
     @Select("select * from tbl_topic where user_id=#{id}")
     public List<Topic> getTopicByUserId(int id);
 
-    @Delete("delete * from tbl_topic where topic_id=#{id}")
+    @Delete("delete from tbl_topic where topic_id=#{id}")
     public int deleteTopicById(int id);
 
     @Update("update tbl_topic set topic_title=#{title},topic_content=#{content},topic_time=#{time}")
