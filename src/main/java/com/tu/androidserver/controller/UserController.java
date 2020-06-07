@@ -37,20 +37,20 @@ public class UserController {
 
     @PostMapping("/postTopic")
     @ResponseBody
-    public boolean postTopic(@RequestParam Integer userId,@RequestParam String title,@RequestParam String content) {
-        return userService.postTopic(userId,title,content);
+    public boolean postTopic(@RequestParam String userId,@RequestParam String title,@RequestParam String content) {
+        return userService.postTopic(Integer.valueOf(userId),title,content);
     }
 
     @PostMapping("/remark")
     @ResponseBody
-    public boolean remark(@RequestParam Integer userId,@RequestParam Integer topicId, @RequestParam String content) {
-        return userService.remark(userId,topicId,content);
+    public boolean remark(@RequestParam String userId,@RequestParam String topicId, @RequestParam String content) {
+        return userService.remark(Integer.valueOf(userId),Integer.valueOf(topicId),content);
     }
 
     @PostMapping("/viewComment")
     @ResponseBody
-    public List<Comment> viewComment(@RequestParam Integer topicId) {
-        return userService.viewComment(topicId);
+    public List<Comment> viewComment(@RequestParam String topicId) {
+        return userService.viewComment(Integer.valueOf(topicId));
     }
 
     @PostMapping("/viewAllTopic")
@@ -61,55 +61,55 @@ public class UserController {
 
     @PostMapping("/addFriend")
     @ResponseBody
-    public boolean addFriend(@RequestParam Integer senderId,@RequestParam Integer receiverId) {
-        return userService.addFriend(senderId,receiverId);
+    public boolean addFriend(@RequestParam String senderId,@RequestParam String receiverId) {
+        return userService.addFriend(Integer.valueOf(senderId),Integer.valueOf(receiverId));
     }
 
     @PostMapping("/displayFriendApplication")
     @ResponseBody
-    public List<User> displayFriendApplication(@RequestParam Integer receiverId) {
-        return userService.displayFriendApplication(receiverId);
+    public List<User> displayFriendApplication(@RequestParam String receiverId) {
+        return userService.displayFriendApplication(Integer.valueOf(receiverId));
     }
 
     @PostMapping("/acceptFriendApplication")
     @ResponseBody
-    public boolean acceptFriendApplication(@RequestParam Integer receiverId,@RequestParam Integer senderId) {
-        return userService.acceptFriendApplication(receiverId,senderId);
+    public boolean acceptFriendApplication(@RequestParam String receiverId,@RequestParam String senderId) {
+        return userService.acceptFriendApplication(Integer.valueOf(receiverId),Integer.valueOf(senderId));
     }
 
     @PostMapping("/deleteFriend")
     @ResponseBody
-    public boolean deleteFriend(@RequestParam Integer senderId,@RequestParam Integer receiverId) {
-        return userService.deleteFriend(senderId,receiverId);
+    public boolean deleteFriend(@RequestParam String senderId,@RequestParam String receiverId) {
+        return userService.deleteFriend(Integer.valueOf(senderId),Integer.valueOf(receiverId));
     }
 
     @PostMapping("/acceptDeleteFriendMessage")
     @ResponseBody
-    public List<User> acceptDeleteFriendMessage(@RequestParam Integer receiverId) {
-        return userService.acceptDeleteFriendMessage(receiverId);
+    public List<User> acceptDeleteFriendMessage(@RequestParam String receiverId) {
+        return userService.acceptDeleteFriendMessage(Integer.valueOf(receiverId));
     }
 
     @PostMapping("/displayAllFriend")
     @ResponseBody
-    public List<User> displayAllFriend(@RequestParam Integer id) {
-        return userService.displayAllFriend(id);
+    public List<User> displayAllFriend(@RequestParam String id) {
+        return userService.displayAllFriend(Integer.valueOf(id));
     }
 
     @PostMapping("/sendMessage")
     @ResponseBody
-    public boolean sendMessage(@RequestParam Integer senderId,@RequestParam Integer receiverId,@RequestParam String content) {
-        return userService.sendMessage(senderId,receiverId,content);
+    public boolean sendMessage(@RequestParam String senderId,@RequestParam String receiverId,@RequestParam String content) {
+        return userService.sendMessage(Integer.valueOf(senderId),Integer.valueOf(senderId),content);
     }
 
     @PostMapping("/displayAllMessage")
     @ResponseBody
-    public List<ChatRecord> displayAllMessage(@RequestParam Integer senderId, @RequestParam Integer receiverId) {
-        return userService.displayAllMessage(senderId,receiverId);
+    public List<ChatRecord> displayAllMessage(@RequestParam String senderId, @RequestParam String receiverId) {
+        return userService.displayAllMessage(Integer.valueOf(senderId),Integer.valueOf(receiverId));
     }
 
     @PostMapping("/isUnreadMessage")
     @ResponseBody
-    public List<User> isUnreadMessage(@RequestParam Integer senderId) {
-        return userService.isUnreadMessage(senderId);
+    public List<User> isUnreadMessage(@RequestParam String senderId) {
+        return userService.isUnreadMessage(Integer.valueOf(senderId));
     }
 }
