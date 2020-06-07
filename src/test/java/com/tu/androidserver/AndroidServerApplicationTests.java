@@ -1,5 +1,6 @@
 package com.tu.androidserver;
 
+import com.tu.androidserver.bean.ChatRecord;
 import com.tu.androidserver.bean.Comment;
 import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
@@ -85,7 +86,21 @@ class AndroidServerApplicationTests {
 
     @Test
     public void chat() {
-        userService.sendMessage(2,1,"你是大傻子");
+//        userService.sendMessage(2,1,"你是大傻子");
+        List<User> users=userService.isUnreadMessage(1);
+        for(User user:users) {
+            System.out.println(user.getName());
+        }
+
+        List<ChatRecord> records=userService.displayAllMessage(1,2);
+        for(ChatRecord record:records) {
+            System.out.println(record.getContent());
+        }
+
+        users=userService.isUnreadMessage(1);
+        for(User user:users) {
+            System.out.println(user.getName());
+        }
     }
 
 }

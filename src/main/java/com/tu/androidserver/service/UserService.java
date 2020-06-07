@@ -252,8 +252,34 @@ public class UserService {
     /**
      * 查看所有私信
      * */
+    public List<ChatRecord> displayAllMessage(Integer senderId,Integer receiverId) {
+        if(!userUntil.isFriend(senderId,receiverId)) {
+            return null;
+        }
+        List<ChatRecord> records = new ArrayList<>();
+        records.addAll(chatRecordMapper.getChatRecordBySenderAndReceiverId(senderId,receiverId));
+        records.addAll(chatRecordMapper.getChatRecordBySenderAndReceiverId(receiverId,senderId));
+        for(int i=0;i<records.size();i++) {
+            if(records.get(i).getIsRead()==0) {  //将消息标记为已读
+                records.get(i).setIsRead(1);
+                chatRecordMapper.updateChatRecordState(records.get(i));
+            }
+        }
+        return records;
+    }
 
     /**
      * 提示是否有未读私信
      * */
+    public List<User> isUnreadMessage(Integer senderId) {
+        List<User> users = new ArrayList<>();
+        List<ChatRecord> records = new ArrayList<>();
+        records.addAll(chatRecordMapper.getChatRecordByReceiverId(senderId));
+        for(ChatRecord record:records) {
+            if(record.getIsRead()==0) {
+                users.add(userMapper.getUserById(record.getSenderId()));
+            }
+        }
+        return users;
+    }
 }

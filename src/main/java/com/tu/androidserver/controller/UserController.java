@@ -1,5 +1,6 @@
 package com.tu.androidserver.controller;
 
+import com.tu.androidserver.bean.ChatRecord;
 import com.tu.androidserver.bean.Comment;
 import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
@@ -42,13 +43,13 @@ public class UserController {
 
     @PostMapping("/remark")
     @ResponseBody
-    public boolean remark(Integer userId,Integer topicId, String content) {
+    public boolean remark(@RequestParam Integer userId,@RequestParam Integer topicId, @RequestParam String content) {
         return userService.remark(userId,topicId,content);
     }
 
     @PostMapping("/viewComment")
     @ResponseBody
-    public List<Comment> viewComment(Integer topicId) {
+    public List<Comment> viewComment(@RequestParam Integer topicId) {
         return userService.viewComment(topicId);
     }
 
@@ -56,5 +57,59 @@ public class UserController {
     @ResponseBody
     public List<Topic> viewAllTopic() {
         return userService.viewAllTopic();
+    }
+
+    @PostMapping("/addFriend")
+    @ResponseBody
+    public boolean addFriend(@RequestParam Integer senderId,@RequestParam Integer receiverId) {
+        return userService.addFriend(senderId,receiverId);
+    }
+
+    @PostMapping("/displayFriendApplication")
+    @ResponseBody
+    public List<User> displayFriendApplication(@RequestParam Integer receiverId) {
+        return userService.displayFriendApplication(receiverId);
+    }
+
+    @PostMapping("/acceptFriendApplication")
+    @ResponseBody
+    public boolean acceptFriendApplication(@RequestParam Integer receiverId,@RequestParam Integer senderId) {
+        return userService.acceptFriendApplication(receiverId,senderId);
+    }
+
+    @PostMapping("/deleteFriend")
+    @ResponseBody
+    public boolean deleteFriend(@RequestParam Integer senderId,@RequestParam Integer receiverId) {
+        return userService.deleteFriend(senderId,receiverId);
+    }
+
+    @PostMapping("/acceptDeleteFriendMessage")
+    @ResponseBody
+    public List<User> acceptDeleteFriendMessage(@RequestParam Integer receiverId) {
+        return userService.acceptDeleteFriendMessage(receiverId);
+    }
+
+    @PostMapping("/displayAllFriend")
+    @ResponseBody
+    public List<User> displayAllFriend(@RequestParam Integer id) {
+        return userService.displayAllFriend(id);
+    }
+
+    @PostMapping("/sendMessage")
+    @ResponseBody
+    public boolean sendMessage(@RequestParam Integer senderId,@RequestParam Integer receiverId,@RequestParam String content) {
+        return userService.sendMessage(senderId,receiverId,content);
+    }
+
+    @PostMapping("/displayAllMessage")
+    @ResponseBody
+    public List<ChatRecord> displayAllMessage(@RequestParam Integer senderId, @RequestParam Integer receiverId) {
+        return userService.displayAllMessage(senderId,receiverId);
+    }
+
+    @PostMapping("/isUnreadMessage")
+    @ResponseBody
+    public List<User> isUnreadMessage(@RequestParam Integer senderId) {
+        return userService.isUnreadMessage(senderId);
     }
 }

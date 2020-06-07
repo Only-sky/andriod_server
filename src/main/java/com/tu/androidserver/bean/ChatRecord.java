@@ -17,6 +17,14 @@ public class ChatRecord {
         this.isRead = 0;
     }
 
+    public ChatRecord(Integer senderId, Integer receiverId, String content, Timestamp time, Integer isRead) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.content = content;
+        this.time = time;
+        this.isRead = isRead;
+    }
+
     public Integer getSenderId() {
         return senderId;
     }
