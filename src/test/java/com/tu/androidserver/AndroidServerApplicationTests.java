@@ -7,6 +7,7 @@ import com.tu.androidserver.bean.User;
 import com.tu.androidserver.mapper.CommentMapper;
 import com.tu.androidserver.mapper.TopicMapper;
 import com.tu.androidserver.mapper.UserMapper;
+import com.tu.androidserver.service.EmailUntil;
 import com.tu.androidserver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,4 +104,13 @@ class AndroidServerApplicationTests {
         }
     }
 
+    @Test
+    public void sendEmail() throws Exception {
+        EmailUntil.sendEmail("1252983925@qq.com","123");
+    }
+
+    @Test
+    public void register() {
+        System.out.println(userService.sendCaptcha("1320243731@qq.com"));
+    }
 }

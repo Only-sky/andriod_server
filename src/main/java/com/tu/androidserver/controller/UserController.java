@@ -4,13 +4,16 @@ import com.tu.androidserver.bean.ChatRecord;
 import com.tu.androidserver.bean.Comment;
 import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
+import com.tu.androidserver.service.EmailUntil;
 import com.tu.androidserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Jordan_tu
@@ -29,10 +32,18 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email, @RequestParam(value = "password") String password,
-                        @RequestParam(value = "sex")String sex,@RequestParam(value = "phone")String phone,@RequestParam(value = "address")String address){
+    public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email,
+                        @RequestParam(value = "password") String password, @RequestParam(value = "sex")String sex,
+                        @RequestParam(value = "phone")String phone,@RequestParam(value = "address")String address,
+                        @RequestParam(value = "captcha") String captcha){
         User user=new User(name,email,password,sex,phone,address);
-        return userService.register(user);
+        return userService.register(user,captcha);
+    }
+
+    @PostMapping("/registerCaptcha")
+    @ResponseBody
+    public int sendCaptcha(String email){
+        return userService.sendCaptcha(email);
     }
 
     @PostMapping("/postTopic")

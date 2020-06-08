@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -23,22 +25,53 @@ public class UserService {
     private ChatRecordMapper chatRecordMapper;
     @Autowired
     private UserUntil userUntil;
-
+    //放置邮箱和对应的验证码
+    private Map<String,String> captchaMap;
+    public UserService() {
+        captchaMap=new HashMap<>();
+    }
     /**
      * 用户注册
      * @return
-     * -1:邮箱重复
+     * -1:验证码错误
      * 0:注册失败
      * */
-    public int register(User user) {
-        if(userMapper.getUserByEmail(user.getEmail())!=null) {  //邮箱重复
+    public int register(User user,String captcha) {
+        if(!captchaMap.get(user.getEmail()).equals(captcha)) {   //验证码不正确
             return -1;
         }
+        captchaMap.remove(user.getEmail());
         int num=0;
         if((num=userMapper.insertUser(user))>0) {
             return num;
         }
         return 0;
+    }
+
+    /**
+     * 发送验证码
+     * @return
+     * -1:邮箱已经被注册过
+     * 0:发送邮件失败
+     * 1:成功
+     * */
+    public int sendCaptcha(String email) {
+        if(userMapper.getUserByEmail(email)!=null) {  //邮箱重复
+            return -1;
+        }
+        String captcha= EmailUntil.getRandomCaptcha();
+        if(captchaMap.get(email)!=null) {
+            captchaMap.replace(email,captcha);
+        }else {
+            captchaMap.put(email,captcha);
+        }
+        try {
+            EmailUntil.sendEmail(email,captcha);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 1;
     }
 
     /**

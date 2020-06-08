@@ -38,6 +38,14 @@
             <version>1.1.10</version>
         </dependency>
 
+        <!-- 邮件发送包-->
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+
         <!-- MyBatis 依赖  -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
