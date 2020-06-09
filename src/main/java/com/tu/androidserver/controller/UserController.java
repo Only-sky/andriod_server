@@ -4,21 +4,12 @@ import com.tu.androidserver.bean.ChatRecord;
 import com.tu.androidserver.bean.Comment;
 import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
-import com.tu.androidserver.service.EmailUntil;
 import com.tu.androidserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-/**
- * @author Jordan_tu
- * @date 2020/6/2
- */
 @Controller
 public class UserController {
     @Autowired
@@ -42,7 +33,7 @@ public class UserController {
 
     @PostMapping("/registerCaptcha")
     @ResponseBody
-    public int sendCaptcha(String email){
+    public int sendCaptcha(@RequestParam String email){
         return userService.sendCaptcha(email);
     }
 
