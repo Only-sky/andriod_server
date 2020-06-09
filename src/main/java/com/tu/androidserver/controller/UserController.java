@@ -123,4 +123,10 @@ public class UserController {
     public List<User> isUnreadMessage(@RequestParam String senderId) {
         return userService.isUnreadMessage(Integer.valueOf(senderId));
     }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String testConnect() {
+        return "test";
+    }
 }
