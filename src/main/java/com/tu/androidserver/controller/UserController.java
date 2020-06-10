@@ -17,8 +17,14 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public boolean login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
+    public int login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password){
         return userService.login(email, password);
+    }
+
+    @PostMapping("/displayUserInfo")
+    @ResponseBody
+    public User displayUserInfo(String id) {
+        return userService.displayUserInfo(Integer.parseInt(id));
     }
 
     @PostMapping("/register")

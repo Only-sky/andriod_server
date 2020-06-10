@@ -77,15 +77,22 @@ public class UserService {
     /**
      * 登陆
      * */
-    public boolean login(String email,String password) {
+    public int login(String email,String password) {
         User loginUser=userMapper.getUserByEmail(email);
         if(loginUser==null) {
-            return false;
+            return -1;
         }
         if(loginUser.getPassword().equals(password)) {
-            return true;
+            return loginUser.getId();
         }
-        return false;
+        return -1;
+    }
+
+    /**
+     * 获取用户信息
+     * */
+    public User displayUserInfo(int id) {
+        return userMapper.getUserById(id);
     }
 
     /**
