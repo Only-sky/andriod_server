@@ -96,6 +96,16 @@ public class UserService {
     }
 
     /**
+     * 修改用户信息
+     * */
+    public boolean changeUserInfo(User user) {
+        if(userMapper.updateUser(user)==1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 评论
      * */
     public boolean remark(Integer userId,Integer topicId,String content) {
@@ -134,7 +144,8 @@ public class UserService {
     /**
      * 添加好友
      * */
-    public boolean addFriend(Integer senderId,Integer receiverId) {
+    public boolean addFriend(Integer senderId,String receiverEmail) {
+        int receiverId=userMapper.getUserByEmail(receiverEmail).getId();
         if(userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId)!=null) {
             return false;
         }

@@ -27,6 +27,15 @@ public class UserController {
         return userService.displayUserInfo(Integer.parseInt(id));
     }
 
+    @PostMapping("/changeUserInfo")
+    @ResponseBody
+    public boolean changeUserInfo(@RequestParam(value = "id") String id,@RequestParam(value = "name")String name,@RequestParam(value = "password") String password,
+                                  @RequestParam(value = "sex")String sex, @RequestParam(value = "phone")String phone,
+                                  @RequestParam(value = "address")String address) {
+        User user = new User(Integer.valueOf(id),name,"",password,sex,phone,address);
+        return userService.changeUserInfo(user);
+    }
+
     @PostMapping("/register")
     @ResponseBody
     public int register(@RequestParam(value = "name")String name, @RequestParam(value = "email") String email,
@@ -69,8 +78,8 @@ public class UserController {
 
     @PostMapping("/addFriend")
     @ResponseBody
-    public boolean addFriend(@RequestParam String senderId,@RequestParam String receiverId) {
-        return userService.addFriend(Integer.valueOf(senderId),Integer.valueOf(receiverId));
+    public boolean addFriend(@RequestParam String senderId,@RequestParam String receiverEmail) {
+        return userService.addFriend(Integer.valueOf(senderId),receiverEmail);
     }
 
     @PostMapping("/displayFriendApplication")
