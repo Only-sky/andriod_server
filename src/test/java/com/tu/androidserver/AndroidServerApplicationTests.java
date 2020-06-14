@@ -22,22 +22,22 @@ import java.util.List;
 
 @SpringBootTest
 class AndroidServerApplicationTests {
-//    @Autowired
-//    UserMapper userMapper;
-//    @Autowired
-//    TopicMapper topicMapper;
-//    @Autowired
-//    CommentMapper commentMapper;
-//    @Autowired
-//    UserService userService;
+    @Autowired
+    UserMapper userMapper;
+    @Autowired
+    TopicMapper topicMapper;
+    @Autowired
+    CommentMapper commentMapper;
+    @Autowired
+    UserService userService;
 //
-//    @Test
-//    void user() throws SQLException {
+    @Test
+    void user() throws SQLException {
 //        userMapper.deleteUser(1);
-////        User user = new User("hty","2784216955@qq.com","123456","男","18118278807","南京");
-////        System.out.println(userMapper.insertUser(user));
-////        System.out.println(userMapper.getUserById(1).getEmail());
-//    }
+        User user = new User("xyr","2784216955@qq.com","123456","男","18118278807","南京");
+        System.out.println(userMapper.insertUser(user));
+//        System.out.println(userMapper.getUserById(1).getEmail());
+    }
 //
 //    @Test
 //    public void topic() {
@@ -62,14 +62,14 @@ class AndroidServerApplicationTests {
 //
 //    }
 //
-//    @Test
-//    public void friend() {
-//        System.out.println(userService.addFriend(1, 2));
-//        System.out.println(userService.acceptFriendApplication(2, 1));
-//        List<User> users=userService.displayFriendApplication(2);
-//        for(User user:users) {
-//            System.out.println(user.getName());
-//        }
+    @Test
+    public void friend() {
+        System.out.println(userService.addFriend(1, "2784216956@qq.com"));
+        System.out.println(userService.acceptFriendApplication(3, 1));
+        List<User> users=userService.displayFriendApplication(1);
+        for(User user:users) {
+            System.out.println(user.getName());
+        }
 //
 ////        userService.deleteFriend(1,2);
 ////
@@ -83,26 +83,26 @@ class AndroidServerApplicationTests {
 ////        for(User user:users) {
 ////            System.out.println(user.getName());
 ////        }
-//    }
-//
-//    @Test
-//    public void chat() {
-////        userService.sendMessage(2,1,"你是大傻子");
-//        List<User> users=userService.isUnreadMessage(1);
-//        for(User user:users) {
-//            System.out.println(user.getName());
-//        }
-//
-//        List<ChatRecord> records=userService.displayAllMessage(1,2);
-//        for(ChatRecord record:records) {
-//            System.out.println(record.getContent());
-//        }
-//
-//        users=userService.isUnreadMessage(1);
-//        for(User user:users) {
-//            System.out.println(user.getName());
-//        }
-//    }
+    }
+
+    @Test
+    public void chat() {
+        userService.sendMessage(3,1,"你是大傻子31");
+        List<User> users=userService.isUnreadMessage(1);
+        for(User user:users) {
+            System.out.println(user.toString());
+        }
+
+        List<ChatRecord> records=userService.displayAllMessage(3,1);
+        for(ChatRecord record:records) {
+            System.out.println(record.getContent());
+        }
+
+        users=userService.isUnreadMessage(2);
+        for(User user:users) {
+            System.out.println(user.getName());
+        }
+    }
 //
 //    @Test
 //    public void sendEmail() throws Exception {

@@ -23,7 +23,7 @@ public interface UserMapper {
     public int insertUser(User user);
 
     @Update("update tbl_user set user_name=#{name},user_password=#{password},user_sex=#{sex}," +
-            "user_phone=#{phone},user_address=#{address}")
+            "user_phone=#{phone},user_address=#{address} where user_id=#{id}")
     public int updateUser(User user);
 
     @Delete("delete from tbl_user where user_id = #{userId}")

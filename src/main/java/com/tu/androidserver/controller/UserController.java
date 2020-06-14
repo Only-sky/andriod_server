@@ -115,7 +115,7 @@ public class UserController {
     @PostMapping("/sendMessage")
     @ResponseBody
     public boolean sendMessage(@RequestParam String senderId,@RequestParam String receiverId,@RequestParam String content) {
-        return userService.sendMessage(Integer.valueOf(senderId),Integer.valueOf(senderId),content);
+        return userService.sendMessage(Integer.valueOf(senderId),Integer.valueOf(receiverId),content);
     }
 
     @PostMapping("/displayAllMessage")
