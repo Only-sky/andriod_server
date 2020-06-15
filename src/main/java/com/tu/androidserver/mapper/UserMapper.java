@@ -4,10 +4,6 @@ import com.tu.androidserver.bean.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author Jordan_tu
- * @date 2020/6/2
- */
 @Mapper
 @Repository
 public interface UserMapper {

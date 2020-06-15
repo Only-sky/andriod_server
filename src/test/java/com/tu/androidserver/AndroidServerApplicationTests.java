@@ -1,13 +1,13 @@
 package com.tu.androidserver;
 
-import com.tu.androidserver.bean.ChatRecord;
-import com.tu.androidserver.bean.Comment;
-import com.tu.androidserver.bean.Topic;
-import com.tu.androidserver.bean.User;
+import com.alibaba.fastjson.JSON;
+import com.tu.androidserver.bean.*;
 import com.tu.androidserver.mapper.CommentMapper;
+import com.tu.androidserver.mapper.GroupMapper;
 import com.tu.androidserver.mapper.TopicMapper;
 import com.tu.androidserver.mapper.UserMapper;
 import com.tu.androidserver.service.EmailUntil;
+import com.tu.androidserver.service.GroupService;
 import com.tu.androidserver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -29,7 +30,11 @@ class AndroidServerApplicationTests {
     @Autowired
     CommentMapper commentMapper;
     @Autowired
+    GroupMapper groupMapper;
+    @Autowired
     UserService userService;
+    @Autowired
+    GroupService groupService;
 //
     @Test
     void user() throws SQLException {
@@ -113,4 +118,32 @@ class AndroidServerApplicationTests {
 //    public void register() {
 //        System.out.println(userService.sendCaptcha("1320243731@qq.com"));
 //    }
+
+    @Test
+    public void group() {
+//        List<Integer> users=new ArrayList<>();
+//        users.add(1);
+//        users.add(2);
+//        String text=JSON.toJSONString(users);
+//        Group group=new Group("test",text);
+//        System.out.println(groupMapper.insertGroup(group));
+
+//        users=(List<Integer>) JSON.parse(groupMapper.getGroupById(1).getUsers());
+//        for(int i=0;i<users.size();i++) {
+//            System.out.println(users.get(i));
+//        }
+
+
+//        groupService.createGroup("第一个群",1);
+
+//        groupService.joinGroup(2,2);
+
+//        groupService.sendGroupMessage(2,1,"你好");
+
+        List<GroupChatRecord> records=groupService.displayGroupAllMessage(2);
+        for(GroupChatRecord record:records) {
+            System.out.println(record.getContent());
+        }
+
+    }
 }
