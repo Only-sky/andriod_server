@@ -144,20 +144,27 @@ public class UserService {
 
     /**
      * 添加好友
+     * @return
+     * 0:表示已经发送过请求，但是对方还未同意
+     * 1:表示已经存在好友关系
+     * 2:表示发送成功
+     * 3:表示发送失败
      * */
-    public boolean addFriend(Integer senderId,String receiverEmail) {
+    public int addFriend(Integer senderId,String receiverEmail) {
         int receiverId=userMapper.getUserByEmail(receiverEmail).getId();
-        if(userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId)!=null) {
-            return false;
+        UserRelation userRelation=userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId);
+        userRelation=(userRelation!=null?userRelation:userRelationMapper.getUserBySenderAndReceiverId(receiverId,senderId));
+        if(userRelation!=null) {
+            if(userRelation.isAgree()==0) {
+                return 0;
+            }
+            return 1;
         }
-        if(userRelationMapper.getUserBySenderAndReceiverId(receiverId,senderId)!=null) {
-            return false;
-        }
-        UserRelation userRelation=new UserRelation(senderId,receiverId,new Timestamp(System.currentTimeMillis()));
+        userRelation=new UserRelation(senderId,receiverId,new Timestamp(System.currentTimeMillis()));
         if(userRelationMapper.insertUserRelation(userRelation)==1) {
-            return true;
+            return 2;
         }
-        return false;
+        return 3;
     }
 
     /**

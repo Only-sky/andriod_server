@@ -1,9 +1,5 @@
 package com.tu.androidserver.bean;
 
-/**
- * @author Jordan_tu
- * @date 2020/6/2
- */
 public class User {
     private Integer id;
     private String name;

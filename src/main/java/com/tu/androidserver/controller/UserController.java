@@ -78,7 +78,7 @@ public class UserController {
 
     @PostMapping("/addFriend")
     @ResponseBody
-    public boolean addFriend(@RequestParam String senderId,@RequestParam String receiverEmail) {
+    public int addFriend(@RequestParam String senderId,@RequestParam String receiverEmail) {
         return userService.addFriend(Integer.valueOf(senderId),receiverEmail);
     }
 
