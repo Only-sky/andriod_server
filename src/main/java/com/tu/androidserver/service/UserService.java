@@ -200,6 +200,22 @@ public class UserService {
     }
 
     /**
+     * 拒绝好友申请
+     * */
+    public boolean refuseFriendApplication(Integer receiverId,Integer senderId) {
+        UserRelation userRelation=userRelationMapper.getUserBySenderAndReceiverId(senderId,receiverId);
+        if(userRelation==null) {
+            return false;
+        }
+        if(userRelation.isAgree()==0) {
+            if(userRelationMapper.deleteUserRelation(senderId,receiverId)==1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 删除好友
      * */
     public boolean deleteFriend(Integer senderId,Integer receiverId) {

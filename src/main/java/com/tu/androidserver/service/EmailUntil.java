@@ -48,9 +48,9 @@ public class EmailUntil {
             //2.2设置收件人 这个TO就是收件人
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(receiverEmail));
             //2.3邮件的主题
-            message.setSubject("来自TICQ的验证码邮件");
+            message.setSubject("来自316的验证码邮件");
             //2.4设置邮件的正文 第一个参数是邮件的正文内容 第二个参数是：是文本还是html的连接
-            message.setContent("<h1>来自TICQ的验证码邮件,请接收你的验证码：</h1><h3>你的验证码是："+captcha+"，请妥善保管好你的验证码！</h3>", "text/html;charset=UTF-8");
+            message.setContent("<h1>来自316的验证码邮件,请接收你的验证码：</h1><h3>你的验证码是："+captcha+"，请妥善保管好你的验证码！</h3>", "text/html;charset=UTF-8");
             //3.发送一封激活邮件
             Transport.send(message);
         }catch (Exception e) {

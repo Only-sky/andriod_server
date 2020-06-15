@@ -6,8 +6,11 @@ import com.tu.androidserver.bean.Topic;
 import com.tu.androidserver.bean.User;
 import com.tu.androidserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -94,6 +97,12 @@ public class UserController {
         return userService.acceptFriendApplication(Integer.valueOf(receiverId),Integer.valueOf(senderId));
     }
 
+    @PostMapping("/refuseFriendApplication")
+    @ResponseBody
+    public boolean refuseFriendApplication(@RequestParam String receiverId,@RequestParam String senderId) {
+        return userService.refuseFriendApplication(Integer.valueOf(receiverId),Integer.valueOf(senderId));
+    }
+
     @PostMapping("/deleteFriend")
     @ResponseBody
     public boolean deleteFriend(@RequestParam String senderId,@RequestParam String receiverId) {
@@ -132,7 +141,7 @@ public class UserController {
 
     @GetMapping("/test")
     @ResponseBody
-    public String testConnect() {
+    public String testConnect(HttpServletRequest request) {
         return "test";
     }
 }
