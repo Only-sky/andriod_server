@@ -242,23 +242,29 @@ public class UserService {
     public List<User> acceptDeleteFriendMessage(Integer receiverId) {
         List<UserRelation> senderRelation=userRelationMapper.getUserBySenderId(receiverId);
         List<UserRelation> receiverRelation=userRelationMapper.getUserByReceiverId(receiverId);
+
         List<User> users=new ArrayList<>();
         for(int i=0;i<senderRelation.size();i++) {
             if(senderRelation.get(i).isAgree()==0) {
-                senderRelation.remove(i);
+                senderRelation.remove(senderRelation.get(i));
+                i--;
                 continue;
             }
             if(senderRelation.get(i).getIsDelete()==0||senderRelation.get(i).getIsDelete()==1) {
-                senderRelation.remove(i);
+                senderRelation.remove(senderRelation.get(i));
+                i--;
             }
         }
+
         for(int i=0;i<receiverRelation.size();i++) {
             if(receiverRelation.get(i).isAgree()==0) {
-                receiverRelation.remove(i);
+                receiverRelation.remove(receiverRelation.get(i));
+                i--;
                 continue;
             }
             if(receiverRelation.get(i).getIsDelete()==0||receiverRelation.get(i).getIsDelete()==2) {
-                receiverRelation.remove(i);
+                receiverRelation.remove(receiverRelation.get(i));
+                i--;
             }
         }
         for(UserRelation relation:senderRelation) {

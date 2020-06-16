@@ -65,4 +65,14 @@ public class UserRelation {
     public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
+
+    @Override
+    public String toString() {
+        return "UserRelation{" +
+                "senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", isAgree=" + isAgree +
+                ", isDelete=" + isDelete +
+                '}';
+    }
 }

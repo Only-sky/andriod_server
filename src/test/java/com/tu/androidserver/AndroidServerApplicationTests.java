@@ -2,6 +2,7 @@ package com.tu.androidserver;
 
 import com.alibaba.fastjson.JSON;
 import com.tu.androidserver.bean.*;
+import com.tu.androidserver.controller.UserController;
 import com.tu.androidserver.mapper.CommentMapper;
 import com.tu.androidserver.mapper.GroupMapper;
 import com.tu.androidserver.mapper.TopicMapper;
@@ -35,14 +36,16 @@ class AndroidServerApplicationTests {
     UserService userService;
     @Autowired
     GroupService groupService;
+    @Autowired
+    UserController userController;
 //
-    @Test
-    void user() throws SQLException {
+//    @Test
+//    void user() throws SQLException {
 //        userMapper.deleteUser(1);
-        User user = new User("xyr","2784216955@qq.com","123456","男","18118278807","南京");
-        System.out.println(userMapper.insertUser(user));
+//        User user = new User("xyr","2784216955@qq.com","123456","男","18118278807","南京");
+//        System.out.println(userMapper.insertUser(user));
 //        System.out.println(userMapper.getUserById(1).getEmail());
-    }
+//    }
 //
 //    @Test
 //    public void topic() {
@@ -67,14 +70,14 @@ class AndroidServerApplicationTests {
 //
 //    }
 //
-    @Test
-    public void friend() {
-        System.out.println(userService.addFriend(1, "2784216956@qq.com"));
-        System.out.println(userService.acceptFriendApplication(3, 1));
-        List<User> users=userService.displayFriendApplication(1);
-        for(User user:users) {
-            System.out.println(user.getName());
-        }
+//    @Test
+//    public void friend() {
+//        System.out.println(userService.addFriend(1, "2784216956@qq.com"));
+//        System.out.println(userService.acceptFriendApplication(3, 1));
+//        List<User> users=userService.displayFriendApplication(1);
+//        for(User user:users) {
+//            System.out.println(user.getName());
+//        }
 //
 ////        userService.deleteFriend(1,2);
 ////
@@ -88,26 +91,26 @@ class AndroidServerApplicationTests {
 ////        for(User user:users) {
 ////            System.out.println(user.getName());
 ////        }
-    }
+//    }
 
-    @Test
-    public void chat() {
-        userService.sendMessage(3,1,"你是大傻子31");
-        List<User> users=userService.isUnreadMessage(1);
-        for(User user:users) {
-            System.out.println(user.toString());
-        }
-
-        List<ChatRecord> records=userService.displayAllMessage(3,1);
-        for(ChatRecord record:records) {
-            System.out.println(record.getContent());
-        }
-
-        users=userService.isUnreadMessage(2);
-        for(User user:users) {
-            System.out.println(user.getName());
-        }
-    }
+//    @Test
+//    public void chat() {
+//        userService.sendMessage(3,1,"你是大傻子31");
+//        List<User> users=userService.isUnreadMessage(1);
+//        for(User user:users) {
+//            System.out.println(user.toString());
+//        }
+//
+//        List<ChatRecord> records=userService.displayAllMessage(3,1);
+//        for(ChatRecord record:records) {
+//            System.out.println(record.getContent());
+//        }
+//
+//        users=userService.isUnreadMessage(2);
+//        for(User user:users) {
+//            System.out.println(user.getName());
+//        }
+//    }
 //
 //    @Test
 //    public void sendEmail() throws Exception {
@@ -119,8 +122,8 @@ class AndroidServerApplicationTests {
 //        System.out.println(userService.sendCaptcha("1320243731@qq.com"));
 //    }
 
-    @Test
-    public void group() {
+//    @Test
+//    public void group() {
 //        List<Integer> users=new ArrayList<>();
 //        users.add(1);
 //        users.add(2);
@@ -140,10 +143,43 @@ class AndroidServerApplicationTests {
 
 //        groupService.sendGroupMessage(2,1,"你好");
 
-        List<GroupChatRecord> records=groupService.displayGroupAllMessage(2);
-        for(GroupChatRecord record:records) {
-            System.out.println(record.getContent());
-        }
+//        List<GroupChatRecord> records=groupService.displayGroupAllMessage(2);
+//        for(GroupChatRecord record:records) {
+//            System.out.println(record.getContent());
+//        }
+//
+//    }
 
+    @Test
+    public void test() {
+//        userService.addFriend(1,"2784216955@qq.com");
+//        userService.addFriend(3,"1457199292@qq.com");
+//        List<User> users=userService.displayFriendApplication(2);
+//        for(User user:users) {
+//            System.out.println(user.getId());
+//        }
+//        userService.acceptFriendApplication(1,3);
+//        System.out.println(userService.acceptFriendApplication(2, 1));
+
+
+
+//        List<User> users = userService.displayAllFriend(1);
+//        for(User user:users) {
+//            System.out.println(user.getId());
+//        }
+//
+//        System.out.println(userService.deleteFriend(3, 1));
+//        System.out.println(userService.deleteFriend(2, 1));
+//
+//        users=userService.acceptDeleteFriendMessage(1);
+//        for(User user:users) {
+//            System.out.println(user.getId());
+//        }
+
+//        List<User> users=userController.acceptDeleteFriendMessage("1");
+//        System.out.println(users.size());
+//        for(User user:users) {
+//            System.out.println(user.getId());
+//        }
     }
 }
